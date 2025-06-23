@@ -32,6 +32,7 @@ import {
   InitFinishedAtom,
   IsUploadedImageAtom,
 } from './atoms';
+import {loadImages} from './consts';
 import {useResetState} from './hooks';
 
 function App() {
@@ -45,7 +46,15 @@ function App() {
     if (!window.matchMedia('(prefers-color-scheme: dark)').matches) {
       document.documentElement.classList.remove('dark');
     }
-  }, []);
+    
+    // Load images when component mounts
+    const init = async () => {
+      await loadImages();
+      setInitFinished(true);
+    };
+    
+    init();
+  }, [setInitFinished]);
 
   return (
     <div className="flex flex-col h-[100dvh]">
